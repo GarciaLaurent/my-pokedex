@@ -17,9 +17,15 @@ export const PokemonDetails = (props: PokemonDetailsProps) => {
 
   return (
     <View
-      className="mb-2 w-full flex-1 items-center rounded-lg border-4 border-gray-300 p-4 shadow-2xl md:mx-auto"
+      className="mb-2 w-full flex-1 items-center rounded-lg border-4 border-gray-300 p-4 shadow-2xl"
       style={{ backgroundColor: color }}>
-      <PokemonDetailsProfile name={pokemon?.name} hp={pokemon?.hp} avatar={avatar} />
+      <PokemonDetailsProfile
+        name={pokemon?.name}
+        hp={pokemon?.hp}
+        avatar={avatar}
+        attack={pokemon?.attack}
+        defense={pokemon?.defense}
+      />
       <PokemonDetailsType
         types={pokemon?.types}
         attack={pokemon?.attack}

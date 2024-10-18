@@ -1,6 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
+import { SCREEN_HEIGHT } from '@gorhom/bottom-sheet';
 import { sortBy } from 'lodash';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Text, View, Image } from 'react-native';
 import { FlatList, RefreshControl, TextInput } from 'react-native-gesture-handler';
 
@@ -11,20 +12,16 @@ export const SearchPokemon = () => {
   const inputRef = useRef<TextInput>(null);
   const [searchValue, setSearchValue] = useState('');
   const { data, isLoading, fetchPokemon } = useSearchPokemon();
-  const [filteredData, setFilteredData] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  useEffect(() => {
-    if (data) {
-      const sortedData = sortBy(data, ['id']);
-      setFilteredData(sortedData);
-    }
-  }, [data]);
+  const filteredData = useMemo(() => {
+    const dataFiltered = data.filter((item) => item?.name?.includes(searchValue));
+    const sortedData = sortBy(dataFiltered, ['id']);
+    return sortedData;
+  }, [data, searchValue]);
 
   const onChange = (value: string) => {
     setSearchValue(value);
-    const dataFiltered = data.filter((item) => item?.name?.includes(value));
-    setFilteredData(dataFiltered);
   };
 
   const handleFocus = () => {
@@ -52,10 +49,10 @@ export const SearchPokemon = () => {
   }
 
   return (
-    <View className="w-full flex-1 items-center">
-      <View className="w-full items-center bg-[#CC0000] ">
+    <View className="w-full flex-1 items-center bg-[#99b4eb]">
+      <View className="w-full items-center bg-[#f67373] ">
         <Image
-          source={{ uri: 'https://pokeapi.co/static/pokeapi_256.3fa72200.png' }}
+          source={require('../../../assets/logo.png')}
           style={{ width: 150, height: 100 }}
           resizeMode="contain"
         />

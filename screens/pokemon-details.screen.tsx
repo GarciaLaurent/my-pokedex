@@ -28,7 +28,7 @@ export const PokemonDetailsScreen = ({ route }: Props) => {
   return (
     <Container>
       <HeaderLayout />
-      <View className="flex-1 bg-[#4a70bd] p-3 md:mx-auto ">
+      <View className="flex-1 bg-[#99b4eb] p-3 sm:w-full md:w-[768px] lg:mx-auto lg:w-[1024px]">
         <PokemonDetails pokemon={pokemonDetail} />
       </View>
     </Container>

@@ -11,7 +11,7 @@ import RootStack from './navigation';
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
+      <SafeAreaProvider style={{ flex: 1 }}>
         <BottomSheetModalProvider>
           <NavigationContainer>
             <RootStack />

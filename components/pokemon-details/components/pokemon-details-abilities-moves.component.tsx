@@ -46,10 +46,10 @@ export const PokemonDetailsAbilitiesAndMoves = (props: PokemonDetailsAbilitiesAn
           <Text className="mb-1 font-bold">Moves:</Text>
           <FlatList
             data={moves}
-            numColumns={3}
+            numColumns={2}
             renderItem={({ item, index }) => (
               <View
-                className={`${index % 3 !== 0 ? `pl-1` : 'pr-1'} w-1/3`}
+                className={`${index % 3 !== 0 ? `pl-1` : 'pr-1'} w-1/2`}
                 key={item?.move?.name + ' ' + index?.toString()}>
                 <Pressable
                   onPress={() => handleOnPress(item)}
