@@ -1,30 +1,23 @@
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
-import { BackButton } from '../components/BackButton';
-import Details from '../screens/details';
-import Overview from '../screens/overview';
+import { PokemonDetailsScreen } from 'screens/pokemon-details.screen';
+import { SearchScreen } from 'screens/search.screen';
 
 export type RootStackParamList = {
-  Overview: undefined;
-  Details: { name: string };
+  SearchScreen: undefined;
+  PokemonDetailsScreen: { url: string };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function RootStack() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Overview">
-        <Stack.Screen name="Overview" component={Overview} />
-        <Stack.Screen
-          name="Details"
-          component={Details}
-          options={({ navigation }) => ({
-            headerLeft: () => <BackButton onPress={navigation.goBack} />,
-          })}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator initialRouteName="SearchScreen">
+      <Stack.Screen name="SearchScreen" component={SearchScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="PokemonDetailsScreen"
+        component={PokemonDetailsScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
   );
 }
