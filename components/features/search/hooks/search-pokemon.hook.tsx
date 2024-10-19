@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+// Pokémon de 1ere génération (rouge et bleu) ;)
 const ALL_POKEMON_URL = 'https://pokeapi.co/api/v2/pokemon?limit=151&offset=0';
 
 export const useSearchPokemon = () => {
@@ -18,7 +19,7 @@ export const useSearchPokemon = () => {
       const result = await response.json();
       const results = result?.results ?? [];
       setData(results);
-    } catch (error: unknown) {
+    } catch (error: any) {
       setError(error.message);
       setIsLoading(false);
     } finally {

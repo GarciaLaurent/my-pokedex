@@ -1,12 +1,12 @@
 import { Container } from 'components/container-layout.component';
+import { PokemonDetails } from 'components/features/pokemon-details/components/pokemon-details.component';
+import { usePokemonDetails } from 'components/features/pokemon-details/hooks/pokemon-details.hook';
 import { HeaderLayout } from 'components/header-layout.component';
-import { PokemonDetails } from 'components/pokemon-details/components/pokemon-details.component';
-import { usePokemonDetails } from 'components/pokemon-details/hooks/pokemon-details.hook';
 import { View, ActivityIndicator } from 'react-native';
 
 interface Props {
   route: {
-    params?: {
+    params: {
       url: string;
     };
   };
@@ -28,9 +28,11 @@ export const PokemonDetailsScreen = ({ route }: Props) => {
   return (
     <Container>
       <HeaderLayout />
-      <View className="flex-1 bg-[#99b4eb] p-3 sm:w-full md:w-[768px] lg:mx-auto lg:w-[1024px]">
-        <PokemonDetails pokemon={pokemonDetail} />
-      </View>
+      {pokemonDetail && (
+        <View className="flex-1 bg-[#99b4eb] p-3 sm:w-full md:w-[768px] lg:mx-auto lg:w-[1024px]">
+          <PokemonDetails pokemon={pokemonDetail} />
+        </View>
+      )}
     </Container>
   );
 };

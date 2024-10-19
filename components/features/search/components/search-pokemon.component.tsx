@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { SCREEN_HEIGHT } from '@gorhom/bottom-sheet';
+import { TSearchPokemon } from 'components/types/types.type';
 import { sortBy } from 'lodash';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Text, View, Image } from 'react-native';
 import { FlatList, RefreshControl, TextInput } from 'react-native-gesture-handler';
 
@@ -15,7 +15,7 @@ export const SearchPokemon = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const filteredData = useMemo(() => {
-    const dataFiltered = data.filter((item) => item?.name?.includes(searchValue));
+    const dataFiltered = data.filter((item: TSearchPokemon) => item?.name?.includes(searchValue));
     const sortedData = sortBy(dataFiltered, ['id']);
     return sortedData;
   }, [data, searchValue]);
@@ -52,7 +52,7 @@ export const SearchPokemon = () => {
     <View className="w-full flex-1 items-center bg-[#99b4eb]">
       <View className="w-full items-center bg-[#f67373] ">
         <Image
-          source={require('../../../assets/logo.png')}
+          source={require('../../../../assets/logo.png')}
           style={{ width: 150, height: 100 }}
           resizeMode="contain"
         />
@@ -79,7 +79,7 @@ export const SearchPokemon = () => {
           <FlatList
             data={filteredData}
             renderItem={({ item, index }) => (
-              <View key={item?.name?.toString() + '' + index?.toString()}>
+              <View key={index?.toString()}>
                 <SearchPokemonItem item={item} />
               </View>
             )}

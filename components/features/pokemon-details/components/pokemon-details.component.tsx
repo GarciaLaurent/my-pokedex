@@ -1,13 +1,13 @@
+import { TPokemon } from 'components/types/types.type';
 import { View } from 'react-native';
 import { getBgColor } from 'utils/format-string.utils';
 
 import { PokemonDetailsAbilitiesAndMoves } from './pokemon-details-abilities-moves.component';
 import { PokemonDetailsProfile } from './pokemon-details-profile.component';
 import { PokemonDetailsType } from './pokemon-details-type.component';
-import { Pokemon } from '../hooks/pokemon-details.hook';
 
 interface PokemonDetailsProps {
-  pokemon: Pokemon;
+  pokemon: TPokemon;
 }
 
 export const PokemonDetails = (props: PokemonDetailsProps) => {
@@ -26,11 +26,7 @@ export const PokemonDetails = (props: PokemonDetailsProps) => {
         attack={pokemon?.attack}
         defense={pokemon?.defense}
       />
-      <PokemonDetailsType
-        types={pokemon?.types}
-        attack={pokemon?.attack}
-        defense={pokemon?.defense}
-      />
+      <PokemonDetailsType types={pokemon?.types} />
       <PokemonDetailsAbilitiesAndMoves abilities={pokemon?.abilities} moves={pokemon?.moves} />
     </View>
   );

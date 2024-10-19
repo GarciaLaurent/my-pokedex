@@ -1,24 +1,13 @@
+import { TPokemon } from 'components/types/types.type';
 import { useEffect, useState } from 'react';
 
 export interface SearchPokemonParams {
   url: string;
 }
 
-export type Pokemon = {
-  id: string;
-  avatar: string;
-  name: string;
-  hp: string;
-  attack: string;
-  defense: string;
-  abilities: [];
-  moves: [];
-  types: [];
-};
-
 export const usePokemonDetails = (props: SearchPokemonParams) => {
   const { url } = props;
-  const [pokemonDetail, setPokemonDetail] = useState<Pokemon | null>(null);
+  const [pokemonDetail, setPokemonDetail] = useState<TPokemon | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -31,7 +20,7 @@ export const usePokemonDetails = (props: SearchPokemonParams) => {
       setIsLoading(true);
       const response = await fetch(url);
       const result = await response.json();
-      const pokemon: Pokemon = {
+      const pokemon: TPokemon = {
         id: result?.id,
         avatar:
           'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' +
@@ -47,7 +36,7 @@ export const usePokemonDetails = (props: SearchPokemonParams) => {
       };
 
       setPokemonDetail(pokemon);
-    } catch (error: unknown) {
+    } catch (error: any) {
       setError(error?.message);
       setIsLoading(false);
     } finally {

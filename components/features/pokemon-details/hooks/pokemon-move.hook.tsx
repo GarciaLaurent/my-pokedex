@@ -1,21 +1,13 @@
+import { TMoveDetails } from 'components/types/types.type';
 import { useEffect, useState } from 'react';
 
 export interface PokemonMovesParams {
   url: string;
 }
 
-export type Move = {
-  id: string;
-  name: string;
-  power: string;
-  pp: string;
-  accuracy: string;
-  descriptions: [];
-};
-
 export const usePokemonMoves = (props: PokemonMovesParams) => {
   const { url } = props;
-  const [data, setData] = useState<unknown>(null);
+  const [data, setData] = useState<TMoveDetails | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,17 +20,16 @@ export const usePokemonMoves = (props: PokemonMovesParams) => {
       setIsLoading(true);
       const response = await fetch(url);
       const result = await response.json();
-
-      const move: Move = {
+      const move: TMoveDetails = {
         id: result?.id,
         name: result?.name,
         power: result?.power,
         pp: result?.pp,
         accuracy: result?.accuracy,
-        descriptions: result?.effect_entries,
+        effect_entries: result?.effect_entries,
       };
       setData(move);
-    } catch (error: unknown) {
+    } catch (error: any) {
       setError(error?.message);
       setIsLoading(false);
     } finally {

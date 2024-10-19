@@ -1,15 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
+import { TSearchPokemon } from 'components/types/types.type';
 import { Pressable, Text } from 'react-native';
 
 interface SearchPokemonItemProps {
-  item: unknown;
+  item: TSearchPokemon;
 }
 
 export const SearchPokemonItem = (props: SearchPokemonItemProps) => {
   const { item } = props;
   const navigation = useNavigation();
 
-  const handleOnPress = (item) => {
+  const handleOnPress = (item: TSearchPokemon) => {
     navigation.navigate('PokemonDetailsScreen', {
       url: item?.url,
     });
