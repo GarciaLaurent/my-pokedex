@@ -11,11 +11,10 @@ import { useSearchPokemon } from '../hooks/search-pokemon.hook';
 export const SearchPokemon = () => {
   const inputRef = useRef<TextInput>(null);
   const [searchValue, setSearchValue] = useState('');
-  const { data, isLoading, fetchPokemon } = useSearchPokemon();
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const { data, isLoading, isFetching, refetch } = useSearchPokemon();
 
   const filteredData = useMemo(() => {
-    const dataFiltered = data.filter((item: TSearchPokemon) => item?.name?.includes(searchValue));
+    const dataFiltered = data?.filter((item: TSearchPokemon) => item?.name?.includes(searchValue));
     const sortedData = sortBy(dataFiltered, ['id']);
     return sortedData;
   }, [data, searchValue]);
@@ -36,14 +35,6 @@ export const SearchPokemon = () => {
     }
   };
 
-  const handleRefresh = () => {
-    setIsRefreshing(true);
-    fetchPokemon();
-    setTimeout(() => {
-      setIsRefreshing(false);
-    }, 2000);
-  };
-
   if (isLoading) {
     return <ActivityIndicator />;
   }
@@ -57,9 +48,9 @@ export const SearchPokemon = () => {
           resizeMode="contain"
         />
       </View>
-      <View className="w-full flex-1 p-4">
+      <View className="flex-1 w-full p-4">
         <View className="h-12 w-full flex-row items-center rounded-full border-[1px] border-white bg-white px-4 pl-12 pr-9 text-black">
-          <View className="absolute left-0 h-full items-center justify-center px-4 ">
+          <View className="absolute left-0 items-center justify-center h-full px-4 ">
             <MaterialIcons name="search" size={20} color="#B7B7B7" />
           </View>
           <TextInput
@@ -75,7 +66,7 @@ export const SearchPokemon = () => {
             onBlur={handleBlur}
           />
         </View>
-        <View className="mt-3 w-full flex-1 rounded-xl border-2 border-gray-100 bg-gray-600 p-4 shadow-2xl">
+        <View className="flex-1 w-full p-4 mt-3 bg-gray-600 border-2 border-gray-100 shadow-2xl rounded-xl">
           <FlatList
             data={filteredData}
             renderItem={({ item, index }) => (
@@ -86,14 +77,14 @@ export const SearchPokemon = () => {
             ItemSeparatorComponent={() => <View className="h-4" />}
             keyExtractor={(item, index) => index?.toString()}
             ListEmptyComponent={
-              <View className="w-full flex-1 items-center justify-center">
-                <Text className="text-center text-lg font-bold text-white">
+              <View className="items-center justify-center flex-1 w-full">
+                <Text className="text-lg font-bold text-center text-white">
                   Aucun pokémon ne correspond à votre recherche dans le pokédex
                 </Text>
               </View>
             }
-            refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}
-            refreshing={isRefreshing}
+            refreshControl={<RefreshControl refreshing={isFetching} onRefresh={refetch} />}
+            refreshing={isFetching}
             showsVerticalScrollIndicator={false}
             onEndReachedThreshold={0.5}
             ListFooterComponent={() => <View className="h-4" />}

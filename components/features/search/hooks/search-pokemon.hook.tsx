@@ -1,31 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
 // Pokémon de 1ere génération (rouge et bleu) ;)
 const ALL_POKEMON_URL = 'https://pokeapi.co/api/v2/pokemon?limit=151&offset=0';
 
 export const useSearchPokemon = () => {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetchPokemon();
-  }, []);
 
   const fetchPokemon = async () => {
     try {
-      setIsLoading(true);
       const response = await fetch(ALL_POKEMON_URL);
-      const result = await response.json();
-      const results = result?.results ?? [];
-      setData(results);
+      if (!response.ok) {
+        throw new Error('Erreur lors de la récupération des Pokémon');
+      }
+      return response.json();
     } catch (error: any) {
-      setError(error.message);
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
+      setError(error.message || 'Erreur inconnue');
+      return [];
     }
   };
 
-  return { data, isLoading, error, fetchPokemon };
+  // Queries
+  const { data, isLoading, refetch, isFetching } = useQuery({
+    queryKey: ['fetchPokemon'],
+    queryFn: fetchPokemon,
+  });
+
+  return { data: data?.results || [], isLoading, error, refetch, isFetching };
 };
